@@ -2,27 +2,36 @@
 using DotNet8JsonCrud.Api.Helpers;
 using DotNet8JsonCrud.Api.Models;
 using DotNet8JsonCrud.Api.Resources;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8JsonCrud.Api.Features.Blog
 {
-    public class BL_Blog
+    public class DA_Blog
     {
         private readonly JsonFileHelper _jsonFileHelper;
-        private readonly DA_Blog _dA_Blog;
 
-        public BL_Blog(JsonFileHelper jsonFileHelper, DA_Blog dA_Blog)
+        public DA_Blog(JsonFileHelper jsonFileHelper)
         {
             _jsonFileHelper = jsonFileHelper;
-            _dA_Blog = dA_Blog;
         }
 
         #region Get Blogs
 
         public async Task<Result<BlogListResponseModel>> GetBlogs()
         {
-            return await _dA_Blog.GetBlogs();
+            Result<BlogListResponseModel> responseModel;
+            try
+            {
+                var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
+                var model = new BlogListResponseModel(lst);
+
+                responseModel = Result<BlogListResponseModel>.SuccessResult(model);
+            }
+            catch (Exception ex)
+            {
+                responseModel = Result<BlogListResponseModel>.FailureResult(ex);
+            }
+
+            return responseModel;
         }
 
         #endregion
@@ -52,33 +61,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
         #endregion
 
-        #region Create Blog V1
-
-        public async Task<Result<BlogResponseModel>> CreateBlogV1(BlogModel blog)
-        {
-            Result<BlogResponseModel> responseModel;
-            try
-            {
-                var result = blog.IsValid();
-                if (result.IsError)
-                {
-                    responseModel = result;
-                    goto result;
-                }
-
-                responseModel = await _dA_Blog.CreateBlog(blog);
-            }
-            catch (Exception ex)
-            {
-                responseModel = Result<BlogResponseModel>.FailureResult(ex);
-            }
-
-        result:
-            return responseModel;
-        }
-
-        #endregion
-
         #region Update Blog
 
         public async Task<Result<BlogResponseModel>> UpdateBlog(BlogModel blog, string blogId)
@@ -86,12 +68,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
-                if (blogId.IsNullOrEmpty())
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
                 var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
                 var item = lst.FirstOrDefault(x => x.BlogId == blogId);
 
@@ -124,32 +100,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
         #endregion
 
-        #region Update Blog V1
-
-        public async Task<Result<BlogResponseModel>> UpdateBlogV1(BlogModel blog, string blogId)
-        {
-            Result<BlogResponseModel> responseModel;
-            try
-            {
-                if (blogId.IsNullOrEmpty())
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
-                responseModel = await _dA_Blog.UpdateBlog(blog, blogId);
-            }
-            catch (Exception ex)
-            {
-                responseModel = Result<BlogResponseModel>.FailureResult(ex);
-            }
-
-        result:
-            return responseModel;
-        }
-
-        #endregion
-
         #region Patch Blog
 
         public async Task<Result<BlogResponseModel>> PatchBlog(BlogModel blog, string blogId)
@@ -157,12 +107,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
-                if (string.IsNullOrEmpty(blogId))
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
                 var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
                 var item = lst.FirstOrDefault(x => x.BlogId == blogId);
 
@@ -209,32 +153,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
         #endregion
 
-        #region Patch Blog V1
-
-        public async Task<Result<BlogResponseModel>> PatchBlogV1(BlogModel blog, string blogId)
-        {
-            Result<BlogResponseModel> responseModel;
-            try
-            {
-                if (string.IsNullOrEmpty(blogId))
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
-                responseModel = await _dA_Blog.PatchBlog(blog, blogId);
-            }
-            catch (Exception ex)
-            {
-                responseModel = Result<BlogResponseModel>.FailureResult(ex);
-            }
-
-        result:
-            return responseModel;
-        }
-
-        #endregion
-
         #region Delete Blog
 
         public async Task<Result<BlogResponseModel>> DeleteBlog(string blogId)
@@ -242,12 +160,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
-                if (string.IsNullOrEmpty(blogId))
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
                 var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
                 var item = lst.FirstOrDefault(x => x.BlogId == blogId);
 
@@ -278,37 +190,6 @@ namespace DotNet8JsonCrud.Api.Features.Blog
         }
 
         #endregion
-
-        #region Delete Blog V1
-
-        public async Task<Result<BlogResponseModel>> DeleteBlogV1(string blogId)
-        {
-            Result<BlogResponseModel> responseModel;
-            try
-            {
-                if (string.IsNullOrEmpty(blogId))
-                {
-                    responseModel = GetInvalidIdResult();
-                    goto result;
-                }
-
-                responseModel = await _dA_Blog.DeleteBlog(blogId);
-            }
-            catch (Exception ex)
-            {
-                responseModel = Result<BlogResponseModel>.FailureResult(ex);
-            }
-
-        result:
-            return responseModel;
-        }
-
-        #endregion
-
-        private Result<BlogResponseModel> GetInvalidIdResult() =>
-            Result<BlogResponseModel>.FailureResult(
-                        MessageResource.InvalidId
-                    );
 
         private string GetUlid() => DevCode.GetUlid();
     }

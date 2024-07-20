@@ -8,7 +8,7 @@ namespace DotNet8JsonCrud.Api
     {
         public static IServiceCollection AddFeatures(this IServiceCollection services)
         {
-            return services.AddScoped<JsonFileHelper>().AddScoped<BL_Blog>();
+            return services.AddScoped<JsonFileHelper>().AddScoped<BL_Blog>().AddScoped<DA_Blog>();
         }
     }
 }
