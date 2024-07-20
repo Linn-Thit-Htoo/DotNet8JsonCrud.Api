@@ -3,6 +3,7 @@ using DotNet8JsonCrud.Api.Helpers;
 using DotNet8JsonCrud.Api.Models;
 using DotNet8JsonCrud.Api.Resources;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8JsonCrud.Api.Features.Blog
 {
@@ -44,10 +45,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
                 await _jsonFileHelper.WriteJsonDataV1(lst);
 
-                responseModel = Result<BlogResponseModel>.SuccessResult(
-                    MessageResource.SaveSuccess,
-                    EnumStatusCode.Success
-                );
+                responseModel = Result<BlogResponseModel>.SaveSuccessResult();
             }
             catch (Exception ex)
             {
@@ -75,10 +73,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
                 if (item is null)
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(
-                        MessageResource.NotFound,
-                        EnumStatusCode.NotFound
-                    );
+                    responseModel = Result<BlogResponseModel>.NotFoundResult();
                     goto result;
                 }
 

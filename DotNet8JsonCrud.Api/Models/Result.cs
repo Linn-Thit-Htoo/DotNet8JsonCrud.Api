@@ -1,4 +1,5 @@
 ﻿using DotNet8JsonCrud.Api.Enums;
+using DotNet8JsonCrud.Api.Resources;
 
 namespace DotNet8JsonCrud.Api.Models
 {
@@ -33,6 +34,16 @@ namespace DotNet8JsonCrud.Api.Models
         public static Result<T> ExecuteResult(int result)
         {
             return result > 0 ? Result<T>.SuccessResult() : Result<T>.FailureResult();
+        }
+
+        public static Result<T> SaveSuccessResult()
+        {
+            return new Result<T> { IsSuccess = true, Message = MessageResource.SaveSuccess, StatusCode = EnumStatusCode.Success };
+        }
+
+        public static Result<T> NotFoundResult(string message = "No Data Found.")
+        {
+            return new Result<T>() { IsSuccess = false, Message = message, StatusCode = EnumStatusCode.NotFound };
         }
     }
 }
