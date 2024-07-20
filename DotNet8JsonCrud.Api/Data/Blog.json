@@ -1,8 +1,14 @@
 [
   {
     "BlogId": 1,
-    "BlogTitle": "Title 1",
-    "BlogAuthor": "Author 1",
-    "BlogContent": "Content 1"
+    "BlogTitle": "Sample Title",
+    "BlogAuthor": "Sample Author",
+    "BlogContent": "Sample Content"
+  },
+  {
+    "BlogId": 2,
+    "BlogTitle": "string",
+    "BlogAuthor": "string",
+    "BlogContent": "string"
   }
 ]

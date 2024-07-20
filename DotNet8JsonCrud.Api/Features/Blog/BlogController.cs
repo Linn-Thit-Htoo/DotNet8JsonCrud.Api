@@ -22,5 +22,12 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             var result = await _bL_Blog.GetBlogs();
             return Content(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog([FromBody] BlogModel blog)
+        {
+            var result = await _bL_Blog.CreateBlog(blog);
+            return Content(result);
+        }
     }
 }
