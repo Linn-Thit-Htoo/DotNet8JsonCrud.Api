@@ -1,6 +1,4 @@
-﻿using DotNet8JsonCrud.Api.Helpers;
-using DotNet8JsonCrud.Api.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8JsonCrud.Api.Features.Blog

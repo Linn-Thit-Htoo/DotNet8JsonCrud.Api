@@ -1,7 +1,4 @@
-﻿using DotNet8JsonCrud.Api.Enums;
-using DotNet8JsonCrud.Api.Resources;
-
-namespace DotNet8JsonCrud.Api.Models
+﻿namespace DotNet8JsonCrud.Api.Models
 {
     public class Result<T>
     {

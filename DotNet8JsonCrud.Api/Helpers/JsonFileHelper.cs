@@ -1,5 +1,4 @@
-﻿using DotNet8JsonCrud.Api.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace DotNet8JsonCrud.Api.Helpers

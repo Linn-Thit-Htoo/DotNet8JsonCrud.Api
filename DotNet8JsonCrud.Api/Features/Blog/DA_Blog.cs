@@ -1,9 +1,4 @@
-﻿using DotNet8JsonCrud.Api.Enums;
-using DotNet8JsonCrud.Api.Helpers;
-using DotNet8JsonCrud.Api.Models;
-using DotNet8JsonCrud.Api.Resources;
-
-namespace DotNet8JsonCrud.Api.Features.Blog
+﻿namespace DotNet8JsonCrud.Api.Features.Blog
 {
     public class DA_Blog
     {
