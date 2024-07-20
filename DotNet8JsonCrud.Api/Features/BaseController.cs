@@ -10,7 +10,7 @@ namespace DotNet8JsonCrud.Api.Features
     {
         protected IActionResult Content(object obj)
         {
-            return Content(JsonConvert.SerializeObject(obj), "application/json");
+            return Content(obj.Serialize(), "application/json");
         }
     }
 }

@@ -16,6 +16,8 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             _jsonFileHelper = jsonFileHelper;
         }
 
+        #region Get Blogs
+
         public async Task<Result<BlogListResponseModel>> GetBlogs()
         {
             Result<BlogListResponseModel> responseModel;
@@ -33,6 +35,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
             return responseModel;
         }
+
+        #endregion
+
+        #region Create Blog
 
         public async Task<Result<BlogResponseModel>> CreateBlog(BlogModel blog)
         {
@@ -54,6 +60,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
             return responseModel;
         }
+
+        #endregion
+
+        #region Update Blog
 
         public async Task<Result<BlogResponseModel>> UpdateBlog(BlogModel blog, string blogId)
         {
@@ -92,6 +102,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             return responseModel;
         }
 
+        #endregion
+
+        #region Patch Blog
+
         public async Task<Result<BlogResponseModel>> PatchBlog(BlogModel blog, string blogId)
         {
             Result<BlogResponseModel> responseModel;
@@ -115,6 +129,8 @@ namespace DotNet8JsonCrud.Api.Features.Blog
                     goto result;
                 }
 
+                #region Patch Method Validation
+
                 if (!string.IsNullOrEmpty(blog.BlogTitle))
                 {
                     item.BlogTitle = blog.BlogTitle;
@@ -130,6 +146,8 @@ namespace DotNet8JsonCrud.Api.Features.Blog
                     item.BlogContent = blog.BlogContent;
                 }
 
+                #endregion
+
                 await _jsonFileHelper.WriteJsonDataV1(lst);
 
                 responseModel = Result<BlogResponseModel>.UpdateSuccessResult();
@@ -142,6 +160,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
         result:
             return responseModel;
         }
+
+        #endregion
+
+        #region Delete Blog
 
         public async Task<Result<BlogResponseModel>> DeleteBlog(string blogId)
         {
@@ -182,6 +204,8 @@ namespace DotNet8JsonCrud.Api.Features.Blog
         result:
             return responseModel;
         }
+
+        #endregion
 
         private Result<BlogResponseModel> GetInvalidIdResult() =>
             Result<BlogResponseModel>.FailureResult(
