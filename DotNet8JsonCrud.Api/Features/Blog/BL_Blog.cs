@@ -62,9 +62,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             {
                 if (string.IsNullOrEmpty(blogId))
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(
-                        MessageResource.InvalidId
-                    );
+                    responseModel = GetInvalidIdResult();
                     goto result;
                 }
 
@@ -83,10 +81,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
                 await _jsonFileHelper.WriteJsonDataV1(lst);
 
-                responseModel = Result<BlogResponseModel>.SuccessResult(
-                    MessageResource.UpdateSuccess,
-                    EnumStatusCode.Success
-                );
+                responseModel = Result<BlogResponseModel>.UpdateSuccessResult();
             }
             catch (Exception ex)
             {
@@ -104,9 +99,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             {
                 if (string.IsNullOrEmpty(blogId))
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(
-                        MessageResource.InvalidId
-                    );
+                    responseModel = GetInvalidIdResult();
                     goto result;
                 }
 
@@ -139,10 +132,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
                 await _jsonFileHelper.WriteJsonDataV1(lst);
 
-                responseModel = Result<BlogResponseModel>.SuccessResult(
-                    MessageResource.UpdateSuccess,
-                    EnumStatusCode.Success
-                );
+                responseModel = Result<BlogResponseModel>.UpdateSuccessResult();
             }
             catch (Exception ex)
             {
@@ -160,9 +150,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             {
                 if (string.IsNullOrEmpty(blogId))
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(
-                        MessageResource.InvalidId
-                    );
+                    responseModel = GetInvalidIdResult();
                     goto result;
                 }
 
@@ -194,5 +182,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
         result:
             return responseModel;
         }
+
+        private Result<BlogResponseModel> GetInvalidIdResult() =>
+            Result<BlogResponseModel>.FailureResult(
+                        MessageResource.InvalidId
+                    );
     }
 }

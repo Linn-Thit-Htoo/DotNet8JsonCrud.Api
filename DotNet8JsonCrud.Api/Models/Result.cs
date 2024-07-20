@@ -41,6 +41,11 @@ namespace DotNet8JsonCrud.Api.Models
             return new Result<T> { IsSuccess = true, Message = MessageResource.SaveSuccess, StatusCode = EnumStatusCode.Success };
         }
 
+        public static Result<T> UpdateSuccessResult()
+        {
+            return new Result<T> { IsSuccess = true, Message = MessageResource.UpdateSuccess, StatusCode = EnumStatusCode.Success };
+        }
+
         public static Result<T> NotFoundResult(string message = "No Data Found.")
         {
             return new Result<T>() { IsSuccess = false, Message = message, StatusCode = EnumStatusCode.NotFound };
