@@ -64,7 +64,9 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             {
                 if (string.IsNullOrEmpty(blogId))
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(MessageResource.InvalidId);
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.InvalidId
+                    );
                     goto result;
                 }
 
@@ -107,7 +109,9 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             {
                 if (string.IsNullOrEmpty(blogId))
                 {
-                    responseModel = Result<BlogResponseModel>.FailureResult(MessageResource.InvalidId);
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.InvalidId
+                    );
                     goto result;
                 }
 
@@ -142,6 +146,48 @@ namespace DotNet8JsonCrud.Api.Features.Blog
 
                 responseModel = Result<BlogResponseModel>.SuccessResult(
                     MessageResource.UpdateSuccess,
+                    EnumStatusCode.Success
+                );
+            }
+            catch (Exception ex)
+            {
+                responseModel = Result<BlogResponseModel>.FailureResult(ex);
+            }
+
+        result:
+            return responseModel;
+        }
+
+        public async Task<Result<BlogResponseModel>> DeleteBlog(string blogId)
+        {
+            Result<BlogResponseModel> responseModel;
+            try
+            {
+                if (string.IsNullOrEmpty(blogId))
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.InvalidId
+                    );
+                    goto result;
+                }
+
+                var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
+                var item = lst.FirstOrDefault(x => x.BlogId == blogId);
+
+                if (item is null)
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.NotFound,
+                        EnumStatusCode.NotFound
+                    );
+                    goto result;
+                }
+
+                var lstToInsert = lst.Where(x => x.BlogId != item.BlogId).ToList();
+                await _jsonFileHelper.WriteJsonDataV1(lstToInsert);
+
+                responseModel = Result<BlogResponseModel>.SuccessResult(
+                    MessageResource.DeleteSuccess,
                     EnumStatusCode.Success
                 );
             }
