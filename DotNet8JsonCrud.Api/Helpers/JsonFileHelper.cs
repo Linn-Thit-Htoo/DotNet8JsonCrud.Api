@@ -27,6 +27,20 @@ namespace DotNet8JsonCrud.Api.Helpers
                 throw;
             }
         }
+
+        public async Task WriteJsonDataV1<T>(List<T> lst)
+        {
+            try
+            {
+                string jsonStr = JsonConvert.SerializeObject(lst, Formatting.Indented);
+                await System.IO.File.WriteAllTextAsync(_filePath, jsonStr);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public async Task WriteJsonData<T>(T model)
         {
             try

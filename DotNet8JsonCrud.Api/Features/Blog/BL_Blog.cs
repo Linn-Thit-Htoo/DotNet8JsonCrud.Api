@@ -39,7 +39,10 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             try
             {
                 blog.BlogId = Ulid.NewUlid().ToString();
-                await _jsonFileHelper.WriteJsonData(blog);
+                var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
+                lst.Add(blog);
+
+                await _jsonFileHelper.WriteJsonDataV1(lst);
 
                 responseModel = Result<BlogResponseModel>.SuccessResult(
                     MessageResource.SaveSuccess,
@@ -51,6 +54,43 @@ namespace DotNet8JsonCrud.Api.Features.Blog
                 responseModel = Result<BlogResponseModel>.FailureResult(ex);
             }
 
+            return responseModel;
+        }
+
+        public async Task<Result<BlogResponseModel>> UpdateBlog(BlogModel blog, string blogId)
+        {
+            Result<BlogResponseModel> responseModel;
+            try
+            {
+                var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
+                var item = lst.FirstOrDefault(x => x.BlogId == blogId);
+
+                if (item is null)
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.NotFound,
+                        EnumStatusCode.NotFound
+                    );
+                    goto result;
+                }
+
+                item.BlogTitle = blog.BlogTitle;
+                item.BlogAuthor = blog.BlogAuthor;
+                item.BlogContent = blog.BlogContent;
+
+                await _jsonFileHelper.WriteJsonDataV1(lst);
+
+                responseModel = Result<BlogResponseModel>.SuccessResult(
+                    MessageResource.UpdateSuccess,
+                    EnumStatusCode.Success
+                );
+            }
+            catch (Exception ex)
+            {
+                responseModel = Result<BlogResponseModel>.FailureResult(ex);
+            }
+
+        result:
             return responseModel;
         }
     }
