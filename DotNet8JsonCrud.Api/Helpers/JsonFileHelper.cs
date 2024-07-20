@@ -13,8 +13,8 @@ public class JsonFileHelper
     {
         try
         {
-            string jsonStr = await System.IO.File.ReadAllTextAsync(_filePath);
-            List<T> lst = JsonConvert.DeserializeObject<List<T>>(jsonStr)!;
+            string jsonStr = await File.ReadAllTextAsync(_filePath);
+            var lst = jsonStr.Deserialize<List<T>>()!;
 
             return lst;
         }
@@ -28,8 +28,8 @@ public class JsonFileHelper
     {
         try
         {
-            string jsonStr = JsonConvert.SerializeObject(lst, Formatting.Indented);
-            await System.IO.File.WriteAllTextAsync(_filePath, jsonStr);
+            string jsonStr = lst.Serialize();
+            await File.WriteAllTextAsync(_filePath, jsonStr);
         }
         catch (Exception ex)
         {

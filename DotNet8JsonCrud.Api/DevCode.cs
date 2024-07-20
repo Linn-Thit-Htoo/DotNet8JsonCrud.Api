@@ -7,7 +7,7 @@ public static class DevCode
 
     public static string Serialize(this object obj) => JsonConvert.SerializeObject(obj);
 
-    public static object Deserialize<T>(this string jsonStr) =>
+    public static T Deserialize<T>(this string jsonStr) =>
         JsonConvert.DeserializeObject<T>(jsonStr)!;
 
     public static string GetUlid() => Ulid.NewUlid().ToString();
