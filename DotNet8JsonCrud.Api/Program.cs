@@ -1,3 +1,4 @@
+using DotNet8JsonCrud.Api;
 using DotNet8JsonCrud.Api.Features.Blog;
 using DotNet8JsonCrud.Api.Helpers;
 
@@ -10,8 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<JsonFileHelper>();
-builder.Services.AddScoped<BL_Blog>();
+builder.Services.AddFeatures();
 
 var app = builder.Build();
 
