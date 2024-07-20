@@ -45,7 +45,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
-                blog.BlogId = Ulid.NewUlid().ToString();
+                blog.BlogId = GetUlid();
                 var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
                 lst.Add(blog);
 
@@ -211,5 +211,7 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel>.FailureResult(
                         MessageResource.InvalidId
                     );
+
+        private string GetUlid() => DevCode.GetUlid();
     }
 }

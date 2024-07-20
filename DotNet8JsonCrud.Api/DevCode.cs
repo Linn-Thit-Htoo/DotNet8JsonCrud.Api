@@ -12,5 +12,8 @@ namespace DotNet8JsonCrud.Api
 
         public static object Deserialize<T>(this string jsonStr) =>
             JsonConvert.DeserializeObject<T>(jsonStr)!;
+
+        public static string GetUlid() =>
+            Ulid.NewUlid().ToString();
     }
 }
