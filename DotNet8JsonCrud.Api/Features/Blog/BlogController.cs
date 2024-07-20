@@ -36,5 +36,12 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             var result = await _bL_Blog.UpdateBlog(blog, blogId);
             return Content(result);
         }
+
+        [HttpPatch]
+        public async Task<IActionResult> PatchBlog([FromBody] BlogModel blog, string blogId)
+        {
+            var result = await _bL_Blog.PatchBlog(blog, blogId);
+            return Content(result);
+        }
     }
 }

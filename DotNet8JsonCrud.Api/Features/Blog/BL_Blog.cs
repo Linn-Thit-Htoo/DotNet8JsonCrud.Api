@@ -62,6 +62,12 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
+                if (string.IsNullOrEmpty(blogId))
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(MessageResource.InvalidId);
+                    goto result;
+                }
+
                 var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
                 var item = lst.FirstOrDefault(x => x.BlogId == blogId);
 
@@ -77,6 +83,60 @@ namespace DotNet8JsonCrud.Api.Features.Blog
                 item.BlogTitle = blog.BlogTitle;
                 item.BlogAuthor = blog.BlogAuthor;
                 item.BlogContent = blog.BlogContent;
+
+                await _jsonFileHelper.WriteJsonDataV1(lst);
+
+                responseModel = Result<BlogResponseModel>.SuccessResult(
+                    MessageResource.UpdateSuccess,
+                    EnumStatusCode.Success
+                );
+            }
+            catch (Exception ex)
+            {
+                responseModel = Result<BlogResponseModel>.FailureResult(ex);
+            }
+
+        result:
+            return responseModel;
+        }
+
+        public async Task<Result<BlogResponseModel>> PatchBlog(BlogModel blog, string blogId)
+        {
+            Result<BlogResponseModel> responseModel;
+            try
+            {
+                if (string.IsNullOrEmpty(blogId))
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(MessageResource.InvalidId);
+                    goto result;
+                }
+
+                var lst = await _jsonFileHelper.GetJsonData<BlogModel>();
+                var item = lst.FirstOrDefault(x => x.BlogId == blogId);
+
+                if (item is null)
+                {
+                    responseModel = Result<BlogResponseModel>.FailureResult(
+                        MessageResource.NotFound,
+                        EnumStatusCode.NotFound
+                    );
+                    goto result;
+                }
+
+                if (!string.IsNullOrEmpty(blog.BlogTitle))
+                {
+                    item.BlogTitle = blog.BlogTitle;
+                }
+
+                if (!string.IsNullOrEmpty(blog.BlogAuthor))
+                {
+                    item.BlogAuthor = blog.BlogAuthor;
+                }
+
+                if (!string.IsNullOrEmpty(blog.BlogContent))
+                {
+                    item.BlogContent = blog.BlogContent;
+                }
 
                 await _jsonFileHelper.WriteJsonDataV1(lst);
 
