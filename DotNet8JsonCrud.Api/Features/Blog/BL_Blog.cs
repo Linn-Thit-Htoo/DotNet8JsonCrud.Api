@@ -38,7 +38,9 @@ namespace DotNet8JsonCrud.Api.Features.Blog
             Result<BlogResponseModel> responseModel;
             try
             {
+                blog.BlogId = Ulid.NewUlid().ToString();
                 await _jsonFileHelper.WriteJsonData(blog);
+
                 responseModel = Result<BlogResponseModel>.SuccessResult(
                     MessageResource.SaveSuccess,
                     EnumStatusCode.Success

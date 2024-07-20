@@ -27,15 +27,14 @@ namespace DotNet8JsonCrud.Api.Helpers
                 throw;
             }
         }
-        public async Task WriteJsonData(BlogModel blog)
+        public async Task WriteJsonData<T>(T model)
         {
             try
             {
-                var existingData = await GetJsonData<BlogModel>();
+                var lst = await GetJsonData<T>();
+                lst.Add(model);
 
-                existingData.Add(blog);
-
-                string jsonStr = JsonConvert.SerializeObject(existingData, Formatting.Indented);
+                string jsonStr = JsonConvert.SerializeObject(lst, Formatting.Indented);
                 await System.IO.File.WriteAllTextAsync(_filePath, jsonStr);
             }
             catch (Exception ex)
