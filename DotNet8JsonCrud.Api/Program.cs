@@ -1,3 +1,6 @@
+using DotNet8JsonCrud.Api.Features.Blog;
+using DotNet8JsonCrud.Api.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<JsonFileHelper>();
+builder.Services.AddScoped<BL_Blog>();
 
 var app = builder.Build();
 
