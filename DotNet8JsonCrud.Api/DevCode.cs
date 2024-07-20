@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace DotNet8JsonCrud.Api
+﻿namespace DotNet8JsonCrud.Api
 {
     public static class DevCode
     {
