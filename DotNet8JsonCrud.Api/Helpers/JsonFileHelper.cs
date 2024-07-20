@@ -9,11 +9,13 @@ public class JsonFileHelper
         _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data/Blog.json");
     }
 
+    #region Get Json Data
+
     public async Task<List<T>> GetJsonData<T>()
     {
         try
         {
-            string jsonStr = await File.ReadAllTextAsync(_filePath);
+            string jsonStr = await ReadFile();
             var lst = jsonStr.Deserialize<List<T>>()!;
 
             return lst;
@@ -23,6 +25,10 @@ public class JsonFileHelper
             throw;
         }
     }
+
+    #endregion
+
+    #region Write Json Data V1
 
     public async Task WriteJsonDataV1<T>(List<T> lst)
     {
@@ -36,6 +42,10 @@ public class JsonFileHelper
             throw;
         }
     }
+
+    #endregion
+
+    #region Write Json Data
 
     public async Task WriteJsonData<T>(T model)
     {
@@ -52,4 +62,9 @@ public class JsonFileHelper
             throw;
         }
     }
+
+    #endregion
+
+    private async Task<string> ReadFile() =>
+        await File.ReadAllTextAsync(_filePath);
 }
